@@ -1,4 +1,4 @@
 FROM openjdk:8u201-jdk-alpine3.9
 ADD korki-1.0.jar .
-EXPOSE 8080
+EXPOSE ${PORT}
 CMD java -jar korki-1.0.jar
