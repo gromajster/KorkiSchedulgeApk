@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
 
-    working_directory: ~/cicd
+    working_directory: ~/korki-schedule
 
 
     docker:
@@ -23,18 +23,22 @@ jobs:
     - checkout
 
     - run: mvn dependency:go-offline
-    - run: mvn test
+    - run: mvn package
+
+    - persist_to_workspace:
+        root: target
+        paths:
+          - korki-1.0.jar
+
 
   deploy:
     docker:
     - image: buildpack-deps:trusty
 
     steps:
-    - checkout
-    - run:
-        name: Deploying app to heroku
-        command: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+    - attach_workspace:
+        at: ~/korki-schedule/target
+    - run: ls
 
 
 workflows:
