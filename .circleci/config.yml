@@ -23,6 +23,7 @@ jobs:
     - checkout
 
     - run: mvn dependency:go-offline
+    - run: echo "$JDBC_DATABASE_URL"
     - run: mvn package
 
     - persist_to_workspace:
