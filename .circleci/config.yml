@@ -40,6 +40,7 @@ jobs:
     - attach_workspace:
         at: ./file
     - run: ls
+    - run: ls file
 
 
 workflows:
