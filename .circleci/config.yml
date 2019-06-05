@@ -29,7 +29,7 @@ jobs:
     - persist_to_workspace:
         root: target
         paths:
-          - korki-1.0.jar
+          - ./korki-1.0.jar
 
 
   deploy:
@@ -38,7 +38,7 @@ jobs:
 
     steps:
     - attach_workspace:
-        at: ~/korki-schedule/target
+        at: ./file
     - run: ls
 
 
