@@ -12,6 +12,7 @@ public class KorkiApplication {
 
 
     public static void main(String[] args) {
+        System.getenv("JDBC_DATABASE_URL");
         SpringApplication.run(KorkiApplication.class, args);
     }
 
