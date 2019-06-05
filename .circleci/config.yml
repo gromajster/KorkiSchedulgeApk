@@ -48,18 +48,7 @@ jobs:
     - run: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
     - run: docker tag korkischedule registry.heroku.com/korkischedulgeapk/web
     - run: docker push registry.heroku.com/korkischedulgeapk/web
-    - run: curl -n -X PATCH https://api.heroku.com/apps/korkischedulgeapk/formation \
-        -d '{
-        "updates": [
-        {
-          "type": "web",
-          "docker_image": "'"cat image.txt"'"
-        }
-        ]
-        }' \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
-        -H "Authorization: Bearer ${HEROKU_API_KEY}"
+    - run: curl -n -X PATCH https://api.heroku.com/apps/korkischedulgeapk/formation -d '{ "updates": [ { "type": "web", "docker_image": "'"cat image.txt"'" }]}' -H "Content-Type: application/json" -H "Accept: application/vnd.heroku+json; version=3.docker-releases" -H "Authorization: Bearer ${HEROKU_API_KEY}"
 
 
 workflows:
