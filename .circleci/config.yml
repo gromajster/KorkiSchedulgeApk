@@ -7,13 +7,13 @@ jobs:
 
     docker:
     - image: circleci/openjdk:8u171-jdk
-      enviroment:
+      environment:
         JDBC_DATABASE_URL: jdbc:postgresql://127.0.0.1/testdb
         JDBC_DATABASE_USERNAME: root
         JDBC_DATABASE_PASSWORD: root
 
     - image: postgres:9.5-alpine
-      enviroment:
+      environment:
         POSTGRES_PASSWORD: root
         POSTGRES_USER: root
         POSTGRES_DB: testdb
@@ -23,7 +23,7 @@ jobs:
     - checkout
 
     - run: mvn dependency:go-offline
-    - run: echo "$JDBC_DATABASE_URL"
+    - run: echo ${JDBC_DATABASE_URL}
     - run: mvn package
 
     - persist_to_workspace:
