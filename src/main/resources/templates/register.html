@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KorkiShedule Register</title>
+    <link href="https://fonts.googleapis.com/css?family=Lora|Nunito+Sans|Roboto&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/register.css" th:href="@{/css/register.css}">
+</head>
+
+<body>
+    <div class="nav-box clerafix">
+        <div class="logo"><img clas src="../static/img/KorkiLlogo.png" th:src="@{/img/KorkiLlogo.png}" alt="logo-korki"></div>
+        <nav class="main-nav">
+            <ul class="clerafix">
+                <li><a href="index.html" th:href="@{/}"><i class="fas fa-home"></i></a></li>
+                <li sec:authorize="isAuthenticated()"><a href="" th:href="@{/logout}">Wyloguj</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="" th:href="@{/login}">Logowanie</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="constainer">
+
+        <div class="title">Rejestracja</div>
+
+        <form action="#" method="post" th:action="@{/register}" onsubmit="return checkPassword(), checkPassword2()"
+              th:object="${user}" class="sub-container">
+            <div class="form">
+                <label class="label" for="">Username</label>
+                <h3 class="h3-error-message" th:if="${rdrmessage}" th:text="${rdrmessage}"></h3>
+                <input type="text" class="input" th:field="*{username}" placeholder="Username">
+            </div>
+            <div class="form">
+                <label class="label" for="">Email</label>
+                <input type="text" class="input" th:field="*{email}" placeholder="Email">
+            </div>
+            <div class="form">
+                <label class="label" for="">Password</label>
+                <h3 class="h3-error-message" id="errorid1"></h3>
+                <input type="password" class="input" id="password" th:field="*{password}"  placeholder="...........">
+            </div>
+            <div class="form">
+                <label class="label" for="">Confirm Password</label>
+                <h3 class="h3-error-message" id="errorid2"></h3>
+                <input type="password" id="pwrepeat" class="input" placeholder="...........">
+            </div>
+            <input class="btn" type="submit" value="Register"/>
+        </form>
+    </div>
+    <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #515A64;
+}
+
+.XK {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -250px;
+    width: 500px;
+    height: 200px;
+    border: 4px dashed #fff;
+    background-color: #000;
+    z-index: 999999;
+    box-shadow: 0 0 400px #000;
+}
+
+.XK p {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 170px;
+    color: #ffffff;
+    font-family: Arial;
+}
+
+.XK input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+}
+
+.XK button {
+    margin: 10px 0;
+    color: #fff;
+    background: #16a085;
+    border: none;
+    width: 508px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -4px;
+    border-radius: 4px;
+    border-bottom: 4px solid #117A60;
+    transition: all .2s ease;
+    outline: none;
+}
+
+.XK button:hover {
+    background: #149174;
+    color: #0C5645;
+}
+
+.XK button:active {
+    border: 0;
+}
+
+.XK button:hover {
+    background: #149174;
+    color: #0C5645;
+}
+
+.XK button:active {
+    border:0;
+}
+
+.exit {
+    margin-top: 5px;
+    background-color: red;
+}
+
+.addFile {
+    display: none;
+}
+
+.active {
+    display: block;
+
+}
+
+/* ................................................ */
+.wrapper {
+    margin: 0 auto;
+    width: 99%;
+    height: 100vh;
+}
+
+.file-list {
+    width: 100%;
+    height: 400px;
+
+}
+
+nav {
+    width: 100%;
+    padding: 15px 0;
+    background-color: #eee;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+}
+
+li {
+    flex-basis: 200px;
+    margin-left: 20px;
+}
+
+li a {
+    display: block;
+
+    border: 2px solid #000;
+    text-transform: uppercase;
+    padding: 20px 30px;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: #000;
+    transition: .4s;
+}
+
+li a:hover {
+    background-color: #000;
+    color: #fff;
+}
+/* .............................................. */
+
+.file-list{
+    width: 100%;
+    height: auto;
+    background-color: #2B78C2;
+    margin-top: 30px;
+}
+.file-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.box-pdf{
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background-image: url(../img/pdf.png);
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+.box-pdf a{
+    display: block;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    line-height: 250px;
+    font-size: 16px;
+}
+.descriptio:hover{
+    opacity: 1;
+    border: 2px solid #d6d6d7;
+}
+.descriptio{
+    position: absolute;
+    height: 250PX;
+    width: 200PX;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    background-color: #E83E34;
+    border-radius: 10px;
+    transition: .4s;
+    z-index: 1;
+}
+/* ........................................... */
+.title{
+    background-color: #515A64;
+    width: 300px;
+    padding: 20px 0;
+    border-bottom: 2px solid #fff;
+}
+.title h2{
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2B78C2;
+}
+.space{
+    padding: 20px 0;
+}
+/* .................................................... */
+.video{
+    width: 100%;
+    height: auto;
+    background-color: #2B78C2;
+    margin-top: 30px;
+}
+/* ..................................................... */
+.add-film{
+    width: 600px;
+    height: 200px;
+    background: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    box-shadow: 0 0 400px #000;
+
+}
+.add-film input{
+    width: 80%;
+    padding: 10px 0;
+    margin-top: 90px;
+    margin-left: 20px;
+}
+.exit2{
+    width: 100%;
+    padding: 12px 0;
+    margin-top: 100px;
+    border: none;
+    background-color: #E83E34;
+    color: #fff;
+}
+.add{
+    padding: 10px 20px;
+}
+.off{
+    display: none;
+}
+
+.active2 {
+    display: block;
+}

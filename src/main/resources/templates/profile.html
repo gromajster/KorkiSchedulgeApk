@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/uikit.min.css">
+    <link rel="stylesheet" href="../static/js/uikit-icons.min.js">
+    <link rel="stylesheet" href="../static/js/uikit.min.js">
+    <link rel="stylesheet" href="../static/themes/peach.css" th:href="@{/themes/peach.css}">
+    <link rel="stylesheet" href="../static/css/StyleProfile.css" th:href="@{/css/StyleProfile.css}">
+
+</head>
+
+<body>
+    <!-- 
+      ///////////////////////////  Mail btn/////////////////////////////////////////
+     -->
+    <button class="contact" id="mailBt"><i class="far fa-envelope"></i></button>
+    <section class="form-add">
+    <!-- /////////////navigacja////////////////////////// -->
+    <div class="profile-nav">
+        <nav>
+            <ul class="container">
+                <li><span><i class="fas fa-user user-logo"></i></span></li>
+                <li><span sec:authentication="name"></span></li>
+                <li class="home"><a href="index.html" th:href="@{/}">Strona Główna</a></li>
+                <li class="data" th:if="${#request.requestURI.equalsIgnoreCase('/profile')}"><a href="user-info.html"
+                                                                                                th:href="@{/profile/user-info}">Dane
+                    Osobowe</a></li>
+                <li class="data" th:if="${!#request.requestURI.equalsIgnoreCase('/profile')}"><a href="fileuser.html"
+                                                                                                 th:href="@{|/profile/${user.id}/fileUser|}">Materiały</a>
+                </li>
+                <li class="data" th:if="${#request.requestURI.equalsIgnoreCase('/profile')}"><a href="fileuser.html"
+                                                                                                th:href="@{/profile/fileUser}">Materiały</a>
+                </li>
+
+                <li class="out" sec:authorize="isAuthenticated()"><a href="" th:href="@{/logout}">Wyloguj</a></li>
+            </ul>
+        </nav>
+    </div>
+
+<!-- ////////////////Dodawanie przedmiotów//////////////// -->
+        <form action="#" method="post" th:action="@{/add}" th:object="${add}" class="sub-container"
+              th:if="${#request.requestURI.equalsIgnoreCase('/profile')}">
+        <div class="l-1 clearfix">
+            <div class="label1">
+                <label class="label" for="">Subject</label>
+                <select th:field="*{category}">
+                    <option th:each="category : ${T(pl.korkischedule.korki.Entity.Category).values()}"
+                            th:value="${category}"
+                            th:text="${category}">
+                    </option>
+                </select>
+
+            </div>
+            <div class="label1">
+                <label class="label" for="">Typ ogłoszenia</label>
+                <select th:field="*{typeOfAdd}">
+                    <option th:each="typeOfAdd : ${T(pl.korkischedule.korki.Entity.TypeOfAdd).values()}"
+                            th:value="${typeOfAdd}"
+                            th:text="${typeOfAdd}">
+                    </option>
+                </select>
+                
+            </div>
+            <div class="form">
+                <label class="label" for=""></label>
+                <input type="text" class="input" th:field="*{title}" placeholder="Title">
+            </div>
+
+            <div class="form">
+                <label class="label" for=""></label>
+                <textarea class="input2" th:field="*{description}" placeholder="Description"></textarea>
+            </div>
+        </div>
+            <input class="btn" type="submit"/>
+
+</section>
+
+<h3 th:if="${!#request.requestURI.equalsIgnoreCase('/profile')}" th:text="${user.username}">.</h3>
+<aside class="contact-menu" id="pop">
+    <div id="exit" class="exit">
+        <i class="far fa-times-circle"></i>
+    </div>
+    <div class="buffor">
+        <form action="#" th:action="@{/profile/send}" method="post" th:object="${formEmail}"
+              class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Kontakt:
+                </span>
+            <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Name is required">
+                <span class="label-input100">Imie: </span>
+                <input class="input100" type="text" th:field="*{senderName}" name="name" placeholder="Wprowadź Imie">
+                <span class="focus-input100"></span>
+            </div>
+            <input type="hidden" th:value="${formEmail.destination}" th:field="*{destination}">
+            <div class="wrap-input100 rs1-wrap-input100 validate-input"
+                 data-validate="Valid email is required: ex@abc.xyz">
+                <span class="label-input100">Email: </span>
+                <input class="input100" type="text" name="email" th:field="*{senderEmail}"
+                       placeholder="Wprowadź Swój Adres Email">
+                <span class="focus-input100"></span>
+            </div>
+            <div class="wrap-input100 validate-input" data-validate="Message is required">
+                <span class="label-input100">Treść Wiadomośći: </span>
+                <textarea class="input100" name="message" th:field="*{message}"
+                          placeholder="Wprowadź Treść Wiadomośći..."></textarea>
+                <span class="focus-input100"></span>
+            </div>
+            <div class="container-contact100-form-btn">
+                <button class="contact100-form-btn">
+                        <span>
+                            Wyślij!
+                        </span>
+                </button>
+            </div>
+        </form>
+    </div>
+</aside>
+<!-- ///////////////////TABELA KOREPETYCJE/////////////// -->
+<section class="table-display">
+    <h2>Korepetycje</h2>
+    <div class="media-body">
+        <table>
+            <thead>
+            <tr>
+                <td>
+                    Subject
+                </td>
+                <td>
+                    Title
+                </td>
+                <td>
+                    Description
+                </td>
+                <td th:if="${#request.requestURI.equalsIgnoreCase('/profile')}">
+                    Expose
+                </td>
+            </tr>
+            </thead>
+            <tbody class="tbody">
+            <tr th:each="add:${addsTeacher}">
+                <td>
+                    <h5  th:text="${add.category}">test test (25zł)</h5>
+                </td>
+                <td>
+                    <h5  th:text="${add.title}">test test (25zł)</h5>
+                </td>
+                <td>
+                    <h5  th:text="${add.description}">test test (25zł)</h5>
+                </td>
+                <td th:if="${#request.requestURI.equalsIgnoreCase('/profile')}">
+                    <a th:href="@{|/add/change-status/${add.id}|}">
+                        <div th:switch="${add.expose}">
+                            <h5 class="expose" th:case="true">ZDEJMIJ WYRÓŻNIENIE</h5>
+                            <h5 class="expose" th:case="false">WYRÓŻNIJ</h5>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<!--//////////////////////////// TABELA Uczeń////////////// -->
+<section class="table-display">
+        <h2>Uczeń</h2>
+        <div class="media-body">
+            <table>
+                <thead>
+                <tr>
+                    <td>
+                        Subject
+                    </td>
+                    <td>
+                        Title
+                    </td>
+                    <td>
+                        Description
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="add:${addsStudent}">
+                    <td>
+                        <h5 th:text="${add.category}">test test (25zł)</h5>
+                    </td>
+                    <td>
+                        <h5 th:text="${add.title}">test test (25zł)</h5>
+                    </td>
+                    <td>
+                        <h5 th:text="${add.description}">test test (25zł)</h5>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <!--/////////////////SEKCJA Komentarzy////////////-->
+    </section>
+    <section class="coments clearfix" th:if="!${#request.requestURI.equalsIgnoreCase('/profile')}">
+        <div class="disp-com">
+            <table>
+                <thead>
+                <tr>
+                    <td class="comments">
+                        Description
+                    </td>
+                    <td class="comments">
+                        Creator
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="opinion:${opinions}">
+                    <td>
+                        <h5 class="comments com" th:text="${opinion.description}">test test (25zł)</h5>
+                    </td>
+                    <td>
+                        <h5 class="comments com"  th:text="${opinion.creator.username}">test test (25zł)</h5>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form th:action="@{/profile/opinion}" th:method="post" th:object="${opinion}" class="add-com">
+            <span class="t-c">Dodaj Opinię</span>
+            <li class="l1">
+                <textarea name="field5" id="aaa" th:field="*{description}"
+                          class="field-long field-textarea input3"></textarea>
+            </li>
+            <input type="hidden" th:value="${opinion.receiver}" th:field="*{receiver}">
+            <input type="hidden" th:value="${opinion.creator}" th:field="*{creator}">
+            <input class="btn-a" type="submit" value="Dodaj"/>
+        </form>
+    
+    </section>
+<!-- /////////////////////////////////////////KALENDARZ////////////////////////////////////////////////////////////////// -->
+
+<section class="callendary_sectiom">
+    <!-- <div id="calendar" style="position: absolute; width: 98%; height: 100%;"></div> -->
+    <div id="calendar" style="position: absolute; width: 98%; height: 100%;" class="mfp-planner mfp-month-view peach">
+        <div>
+            <div class="mfp-header">
+                <div class="mfp-title"><a class="mfp-link">March, 2019</a><a title="March, 2018"
+                                                                             class="mfp-button mfp-button-prev-2"><span></span></a><a
+                        title="February, 2019" class="mfp-button mfp-button-prev"><span></span></a><a
+                        title="April, 2019"
+                        class="mfp-button mfp-button-next"><span></span></a><a title="March, 2020"
+                                                                               class="mfp-button mfp-button-next-2"><span></span></a>
+                </div>
+                <div class="mfp-header-weekdays">
+                    <div class="mfp-header-weeknumbers">&nbsp;</div>
+                    <div class="mfp-weekdays-wrap">
+                        <div class="mfp-weekday" title="Sunday">Sun</div>
+                        <div class="mfp-weekday" title="Monday">Mon</div>
+                        <div class="mfp-weekday" title="Tuesday">Tue</div>
+                        <div class="mfp-weekday" title="Wednesday">Wed</div>
+                        <div class="mfp-weekday" title="Thursday">Thu</div>
+                        <div class="mfp-weekday" title="Friday">Fri</div>
+                        <div class="mfp-weekday" title="Saturday">Sat</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mfp-content">
+                <div class="mfp-header-weeknumbers">
+                    <table class="mfp-weeknumbers" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="mfp-wrap" style="display: flex;">
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-padding-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">24</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">25</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">26</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">27</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">28</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">1 Mar</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">2</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, February 24, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Feb 25 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Feb 26 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Feb 27 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Feb 28 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Mar 01 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Mar 02 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">3</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">4</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">5</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">6</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">7</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">8</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">9</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, March 03, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Mar 04 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Mar 05 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Mar 06 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Mar 07 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Mar 08 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Mar 09 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">10</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">11</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">12</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">13</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">14</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">15</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">16</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, March 10, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Mar 11 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Mar 12 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Mar 13 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Mar 14 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Mar 15 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Mar 16 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">17</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">18</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">19</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">20</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">21</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">22</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">23</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, March 17, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Mar 18 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Mar 19 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Mar 20 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Mar 21 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Mar 22 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Mar 23 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">24</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">25</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">26</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">27</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">28</div>
+                            </div>
+                            <div class="mfp-bg-cell">
+                                <div class="mfp-bg-cell-header">29</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">30</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, March 24, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Mar 25 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Mar 26 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Mar 27 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Mar 28 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Mar 29 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Mar 30 2019 00:00:00 GMT+0100 (czas środkowoeuropejski standardowy)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mfp-week">
+                        <div class="mfp-bg-row">
+                            <div class="mfp-bg-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">31</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">1 Apr</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">2</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">3</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">4</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell">
+                                <div class="mfp-bg-cell-header">5</div>
+                            </div>
+                            <div class="mfp-bg-cell mfp-padding-cell mfp-weekend-cell">
+                                <div class="mfp-bg-cell-header">6</div>
+                            </div>
+                        </div>
+                        <table class="mfp-item-table" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td title="Sunday, March 31, 2019">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Mon Apr 01 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Tue Apr 02 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Wed Apr 03 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Thu Apr 04 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Fri Apr 05 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                                <td title="Sat Apr 06 2019 00:00:00 GMT+0200 (czas środkowoeuropejski letni)">
+                                    <div class="mfp-cell-header">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            <tr class="mfp-item-row">
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                                <td class="mfp-item-cell"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+
+<script src="../static/js/MindFusion.Scheduling.js" type="text/javascript"
+        th:src="@{/js/MindFusion.Scheduling.js}"></script>
+<script src="../static/js/MyFirstSchedule.js" type="text/javascript" th:src="@{/js/MyFirstSchedule.js}"></script>
+</body>
+
+</html>

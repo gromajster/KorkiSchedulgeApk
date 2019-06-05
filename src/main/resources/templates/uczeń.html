@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Uczeń</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto&amp;subset=latin-ext"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/uczeń.css" th:href="@{/css/uczeń.css}">
+</head>
+
+<body>
+    <div class="nav-box clerafix">
+        <div class="logo"><img src="../static/img/KorkiLlogo.png" th:src="@{/img/KorkiLlogo.png}" alt="logo-korki">
+        </div>
+        <nav class="main-nav">
+            <ul class="clerafix">
+                <li><a href="" th:href="@{/}"><i class="fas fa-home"></i></a></li>
+                <li sec:authorize="isAuthenticated()"><a href="" th:href="@{/logout}">Wyloguj</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="" th:href="@{/login}">Logowanie</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="" th:href="@{/register}">Rejestracja</a></li>
+            </ul>
+        </nav>
+    </div>
+    <header>
+        <div></div>
+        <video class="video" autoplay loop>
+            <source th:src="@{/video/Laptop - 3145.mp4}" type="video/mp4">
+        </video>
+        <h1>Miliony polaków już korzysta</h1>
+        <p class="paragraf"></p>
+        <span class="arrow" id="arrow"><i class="fas fa-chevron-down"></i></span>
+    </header>
+    <main>
+        <section class="browser" id="one">
+            <h2>Wybierz przedmiot</h2>
+            <div class="subject-display">
+                <div class="subject" th:each="category: ${T(pl.korkischedule.korki.Entity.Category).values()}">
+                    <a href="#" th:href="@{/student(category=${category})}" th:text="${category}"></a>
+                </div>
+            </div>
+            </div>
+
+        </section>
+        <section class="label">
+
+            <div th:if="${(param.category != null)}">
+                <h2>Dostępne oferty</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                Subject
+                            </td>
+                            <td>
+                                Title
+                            </td>
+                            <td>
+                                Description
+                            </td>
+                            <td>
+                                User
+                            </td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="add:${adds}">
+                            <td>
+                                <h5 th:text="${add.category}">test test (25zł)</h5>
+                            </td>
+                            <td>
+                                <h5 th:text="${add.title}">test test (25zł)</h5>
+                            </td>
+                            <td>
+                                <h5 th:text="${add.description}">test test (25zł)</h5>
+                            </td>
+                            <td>
+                                <a th:href="@{|profile/${add.owner.id}/|}" th:text="${add.owner.username}">test test
+                                    (25zł)</a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
+
+</body>
+
+
+</html>

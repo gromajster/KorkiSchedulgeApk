@@ -1,0 +1,205 @@
+header>* {
+    position: absolute;
+}
+
+header {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 90vh;
+    margin-top: 60px;
+    background-image: url(../img/girl-3718526_1920.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+
+
+    div {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, .2);
+    }
+
+    h1 {
+        top: 10%;
+        left: 2%;
+
+        font-size: 1.2rem;
+        font-family: $font1;
+        letter-spacing: 2px;
+        font-weight: 800;
+        color: #fff;
+        z-index: 1;
+        animation: text-shadow 1.5s ease-in-out infinite;
+
+        &:hover {
+            animation-play-state: paused;
+        }
+    }
+
+    p {
+        display: block;
+        width: 30%;
+        top: 30%;
+        left: 2%;
+        font-size: 0.9rem;
+        font-family: $font2;
+        color: #fff;
+        z-index: 1;
+        border: 1px solid #fff;
+        background: rgba(0, 0, 0, .5);
+    }
+
+    .arrow {
+        top: 85%;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: moveArrow 1s linear infinite;
+        cursor: pointer;
+
+        .fa-chevron-down {
+            font-size: 1.5rem;
+            color: #F1F0E2;
+        }
+    }
+
+}
+
+@keyframes text-shadow {
+    0% {
+        transform: translateY(0);
+
+    }
+
+    20% {
+        transform: translateY(-1em);
+
+    }
+
+    40% {
+        transform: translateY(0.5em);
+    }
+
+    60% {
+        transform: translateY(-0.25em);
+
+    }
+
+    80% {
+        transform: translateY(0);
+    }
+}
+
+
+
+@keyframes moveArrow {
+
+    0%,
+    100% {
+        top: 85%;
+    }
+
+    50% {
+        top: 89%;
+    }
+}
+
+@media all and (min-width:411px) {
+    header {
+
+
+        h1 {
+            left: 3%;
+            font-size: 1.5rem;
+            padding: 0 10px;
+        }
+
+        p {
+            top: 32%;
+            left: 3%;
+            font-size: 1.1rem;
+            padding: 0 10px;
+        }
+
+        .arrow {
+
+            .fa-chevron-down {
+                font-size: 1.7rem;
+            }
+        }
+
+    }
+}
+
+@media all and (min-width:540px) {
+    header {
+        background-position: 0% 100%;
+
+        h1 {
+            left: 3%;
+            font-size: 1.6rem;
+            padding: 0 12px;
+        }
+
+        p {
+            top: 32%;
+            left: 3%;
+            font-size: 1.2rem;
+            padding: 0 12px;
+        }
+
+    }
+}
+
+@media all and (min-width:770px) {
+    header {
+        background-position: 0 0;
+
+
+        h1 {
+            font-size: 1.9rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+    }
+}
+
+@media all and (min-width:900px) {
+    header {
+        h1 {
+
+            font-size: 2rem;
+
+        }
+
+        p {
+            font-size: 1.6rem;
+        }
+
+    }
+}
+
+@media all and (min-width:1200px) {
+    header {
+        h1 {
+
+            font-size: 2.3rem;
+
+        }
+
+        p {
+            font-size: 1.8rem;
+        }
+
+
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

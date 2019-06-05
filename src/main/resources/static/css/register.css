@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.clerafix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+body {
+  font-size: 10px;
+}
+
+.nav-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #F1F0E2;
+  z-index: 2;
+  /*!......*/
+}
+
+.nav-box .logo {
+  float: left;
+  width: 20%;
+}
+
+.nav-box .logo img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.nav-box .main-nav {
+  float: left;
+  width: 80%;
+}
+
+.nav-box .main-nav ul {
+  list-style: none;
+}
+
+.nav-box .main-nav li {
+  float: left;
+  width: 33.3333%;
+}
+
+.nav-box .main-nav a {
+  display: block;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 0.6rem;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #3B4552;
+}
+
+.nav-box .main-nav a:hover {
+  background-color: #5491F8;
+  color: #fff;
+}
+
+@media all and (min-width: 375px) {
+  .nav-box .main-nav a {
+    font-size: 0.8rem;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .nav-box .main-nav .fa-home {
+    font-size: 1.2rem;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .nav-box .logo img {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+  }
+  .nav-box .main-nav a {
+    font-size: 1rem;
+    height: 70px;
+    line-height: 70px;
+  }
+  .nav-box .main-nav .fa-home {
+    font-size: 1.2rem;
+  }
+}
+
+body {
+  background-color: #525B66;
+}
+
+.constainer {
+  width: 50%;
+  margin: 150px auto 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  height: auto;
+  position: relative;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.constainer .title {
+  position: absolute;
+  top: -10px;
+  background-color: #2b78c2;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.constainer .title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid #2b78c2;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid #2b78c2;
+}
+
+.constainer .sub-container {
+  padding-top: 30px;
+}
+
+.constainer .sub-container .form {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.constainer .sub-container .form .label {
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.constainer .sub-container .form .input {
+  margin: 5px 0 0;
+  width: 100%;
+  padding: 13px;
+  background-color: #f5f6f8;
+  border: 1px solid #000;
+  -webkit-transition: .4s linear;
+  transition: .4s linear;
+}
+
+.constainer .sub-container .form .input:focus {
+  outline: none;
+  border: 2.5px solid #2b78c2;
+  -webkit-transition: -webkit-transform .15s ease;
+  transition: -webkit-transform .15s ease;
+  transition: transform .15s ease;
+  transition: transform .15s ease, -webkit-transform .15s ease;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.constainer .sub-container .btn {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #2b78c2;
+  border: none;
+  cursor: pointer;
+}
+
+.h3-error-message {
+  color: white;
+
+}
+/*# sourceMappingURL=register.css.map */

@@ -1,0 +1,169 @@
+.browser {
+    width: 100%;
+    background-color: #EEF5F1;
+    padding: 0 0 40px 0;
+
+    h2 {
+        padding: 20px 0;
+        font-size: 1.4rem;
+      font-family: $font1;
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #F1F0E2;
+        margin-bottom: 30px;
+    }
+}
+
+.Fizyka {
+    background-image: url(../img/FIZYKA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Matematyka {
+    background-image: url(../img/MATEMATYKA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Angielski {
+    background-image: url(../img/ANGIELSKI.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Historia {
+    background-image: url(../img/HISTORIA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Geografia {
+    background-image: url(../img/GEOGRAFIA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Informatyka {
+    background-image: url(../img/INFORMATYKA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Polski {
+    background-image: url(../img/POLSKI.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Rosyjski {
+    background-image: url(../img/ROSYJSKI.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Niemiecki {
+    background-image: url(../img/NIEMIECKI.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.Chemia {
+    background-image: url(../img/CHEMIA.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.subject-display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+
+    a {
+        display: block;
+        margin: 10px;
+        width: 200px;
+        height: 300px;
+        text-align: center;
+        text-decoration: none;
+        line-height: 300px;
+        font-family: 'roboto', Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        color: #fff;
+        border: .8px solid #fff;
+        transition: .4s linear;
+
+        &:hover {
+            transform: scale(1.1);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+    }
+
+}
+
+.label {
+  width: 100%;
+  background-color: #515A64;
+
+  h2 {
+    padding: 20px 0;
+    font-size: 1.4rem;
+    font-family: $font1;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #F1F0E2;
+    margin-bottom: 50px;
+  }
+
+  div {
+    padding: 0 0 30px 0;
+  }
+
+    table {
+      width: 95%;
+        border-spacing: 1;
+        border-collapse: collapse;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 0 auto;
+
+      thead {
+        tr {
+          height: 60px;
+          background: #2B78C2;
+          font-size: 16px;
+        }
+
+        td {
+          color: #fff;
+          font-family: $font1;
+          font-size: 16px;
+          letter-spacing: 1px;
+          text-align: left;
+          padding-left: 14px;
+
+        }
+        }
+
+        tbody tr {
+            height: 48px;
+          background-color: #fff;
+          border-bottom: 1px solid #555;
+
+            &:last-child {
+                border: 0;
+            }
+        }
+
+        td,
+        th {
+            text-align: left;
+          padding-left: 14px;
+          font-size: 16px;
+          font-family: $font1;
+        }
+    }
+
+}
