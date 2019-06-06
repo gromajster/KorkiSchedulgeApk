@@ -2,18 +2,17 @@ version: 2
 jobs:
   build:
 
-    working_directory: ~/KorkiSchedulgeApk
-
+    working_directory: ~/korki-schedule
 
     docker:
     - image: circleci/openjdk:8u171-jdk
-      enviroment:
+      environment:
         JDBC_DATABASE_URL: jdbc:postgresql://127.0.0.1/testdb
         JDBC_DATABASE_USERNAME: root
         JDBC_DATABASE_PASSWORD: root
 
-    - image: circleci/postgres:9.6.5-alpine-ram
-      enviroment:
+    - image: postgres:9.5-alpine
+      environment:
         POSTGRES_PASSWORD: root
         POSTGRES_USER: root
         POSTGRES_DB: testdb
@@ -21,21 +20,49 @@ jobs:
     steps:
 
     - checkout
+    - run:
+        name: Checking dependency
+        command: mvn dependency:go-offline
+    - run:
+        name: Building package
+        command: mvn package
+    - run:
+        name: Mowing Dockerfile file to ./target directory
+        command: mv Dockerfile ./target
+    - run:
+        name: Moving release.sh file to ./target directory
+        command: mv release.sh ./target
+    - persist_to_workspace:
+        root: target
+        paths:
+        - ./korki-1.0.jar
+        - Dockerfile
+        - release.sh
 
-    - run: mvn dependency:go-offline
-    - run: mvn test
 
   deploy:
     docker:
-    - image: buildpack-deps:trusty
+    - image: circleci/buildpack-deps:curl
 
     steps:
-    - checkout
+    - attach_workspace:
+        at: .
+    - setup_remote_docker
     - run:
-        name: Deploying app to heroku
-        command: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-
+        name: Build docker image from latest .jar file
+        command: docker build -t registry.heroku.com/korkischedulgeapk/web . --iidfile image.txt
+    - run:
+        name: Login to heroku registry
+        command: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
+    - run:
+        name: Pushing image to heroku registry
+        command: docker push registry.heroku.com/korkischedulgeapk/web
+    - run:
+        name: Changing mode release.sh to be executable
+        command: chmod +x ./release.sh
+    - run:
+        name: Run bash script
+        command: ./release.sh
 
 workflows:
   version: 2
