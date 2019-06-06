@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.korkischedule.korki.Entity.User;
+import pl.korkischedule.korki.Entity.UserEntity;
 import pl.korkischedule.korki.Entity.UserRole;
 import pl.korkischedule.korki.Repository.UserRepo;
 import pl.korkischedule.korki.Repository.UserRoleRepo;
@@ -28,8 +28,8 @@ public class RegisterController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
-        User usernameChecker = userRepo.findByUsername(user.getUsername());
+    public String register(@ModelAttribute UserEntity user, RedirectAttributes redirectAttributes) {
+        UserEntity usernameChecker = userRepo.findByUsername(user.getUsername());
         if (usernameChecker != null) {
             redirectAttributes.addFlashAttribute("rdrmessage", "Nazwa użytkownika jest zajęta. Wybierz inny.");
             return "redirect:/register";
@@ -57,7 +57,7 @@ public class RegisterController {
         if (SecurityUtils.isLoggedIn()) {
             return "redirect:/";
         }
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserEntity());
         return "register";
     }
 
