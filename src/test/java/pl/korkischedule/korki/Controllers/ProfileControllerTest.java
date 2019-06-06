@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import pl.korkischedule.korki.Entity.User;
+import pl.korkischedule.korki.Entity.UserEntity;
 import pl.korkischedule.korki.Repository.AddRepo;
 import pl.korkischedule.korki.Repository.OpinionRepo;
 import pl.korkischedule.korki.Repository.UserRepo;
@@ -54,7 +54,7 @@ public class ProfileControllerTest {
         viewResolver.setSuffix(".html");
         ProfileController profileController = new ProfileController(userRepo, addRepo, opinionRepo, emailSender, storageService, youtubeVideoRepo);
         mockMvc = MockMvcBuilders.standaloneSetup(profileController).setViewResolvers(viewResolver).build();
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setUsername("user");
         user.setPassword("user");
         user.setEmail("example@example.com");
