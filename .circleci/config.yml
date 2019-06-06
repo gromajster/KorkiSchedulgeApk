@@ -26,12 +26,14 @@ jobs:
     - run: mvn package
     - run: ls
     - run: mv Dockerfile ./target
+    - run: mv release.sh ./target
     - run: ls target
     - persist_to_workspace:
         root: target
         paths:
           - ./korki-1.0.jar
           - Dockerfile
+          - release.sh
 
 
   deploy:
@@ -47,8 +49,7 @@ jobs:
     - run: cat image.txt
     - run: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
     - run: docker push registry.heroku.com/korkischedulgeapk/web
-    - run: curl -n -X PATCH https://api.heroku.com/apps/korkischedulgeapk/formation --data '{"updates":[{"type":"web","docker_image":"${cat image.txt}"}]}' -H "Content-Type:application/json" -H "Accept:application/vnd.heroku+json; version=3.docker-releases" -H "Authorization:Bearer ${HEROKU_API_KEY}"
-
+    - run: ./release.sh
 
 workflows:
   version: 2
