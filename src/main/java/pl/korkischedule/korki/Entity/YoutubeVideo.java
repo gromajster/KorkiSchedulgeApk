@@ -18,6 +18,6 @@ public class YoutubeVideo {
     private long id;
     private String link;
     @ManyToOne(cascade = CascadeType.ALL)
-    private User ownerVideo;
+    private UserEntity ownerVideo;
 
 }
