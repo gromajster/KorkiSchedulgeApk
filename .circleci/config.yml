@@ -39,16 +39,17 @@ jobs:
   deploy:
     docker:
     - image: circleci/buildpack-deps:curl
-    working_directory: ~/deploy
+
     steps:
     - attach_workspace:
-        at: ./deploy
+        at: .
     - run: ls
     - setup_remote_docker
     - run: docker build -t registry.heroku.com/korkischedulgeapk/web . --iidfile image.txt
     - run: cat image.txt
     - run: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
     - run: docker push registry.heroku.com/korkischedulgeapk/web
+    - run: chmod +x ./release.sh
     - run: ./release.sh
 
 workflows:
