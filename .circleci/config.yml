@@ -49,7 +49,7 @@ jobs:
     - run: cat image.txt
     - run: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
     - run: docker push registry.heroku.com/korkischedulgeapk/web
-    - run: ./release.sh
+    - bash ./release.sh
 
 workflows:
   version: 2
