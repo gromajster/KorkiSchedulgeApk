@@ -26,14 +26,14 @@
     <div class="profile-nav">
         <nav>
             <ul class="container">
-                <li><span><i class="fas fa-user user-logo"></i></span></li>
+                <li><span><i class="fas fa-userEntity userEntity-logo"></i></span></li>
                 <li><span sec:authentication="name"></span></li>
                 <li class="home"><a href="index.html" th:href="@{/}">Strona Główna</a></li>
-                <li class="data" th:if="${#request.requestURI.equalsIgnoreCase('/profile')}"><a href="user-info.html"
-                                                                                                th:href="@{/profile/user-info}">Dane
+                <li class="data" th:if="${#request.requestURI.equalsIgnoreCase('/profile')}"><a href="userEntity-info.html"
+                                                                                                th:href="@{/profile/userEntity-info}">Dane
                     Osobowe</a></li>
                 <li class="data" th:if="${!#request.requestURI.equalsIgnoreCase('/profile')}"><a href="fileuser.html"
-                                                                                                 th:href="@{|/profile/${user.id}/fileUser|}">Materiały</a>
+                                                                                                 th:href="@{|/profile/${userEntity.id}/fileUser|}">Materiały</a>
                 </li>
                 <li class="data" th:if="${#request.requestURI.equalsIgnoreCase('/profile')}"><a href="fileuser.html"
                                                                                                 th:href="@{/profile/fileUser}">Materiały</a>
@@ -82,7 +82,7 @@
 
 </section>
 
-<h3 th:if="${!#request.requestURI.equalsIgnoreCase('/profile')}" th:text="${user.username}">.</h3>
+<h3 th:if="${!#request.requestURI.equalsIgnoreCase('/profile')}" th:text="${userEntity.username}">.</h3>
 <aside class="contact-menu" id="pop">
     <div id="exit" class="exit">
         <i class="far fa-times-circle"></i>

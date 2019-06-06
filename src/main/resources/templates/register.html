@@ -29,7 +29,7 @@
         <div class="title">Rejestracja</div>
 
         <form action="#" method="post" th:action="@{/register}" onsubmit="return checkPassword(), checkPassword2()"
-              th:object="${user}" class="sub-container">
+              th:object="${userEntity}" class="sub-container">
             <div class="form">
                 <label class="label" for="">Username</label>
                 <h3 class="h3-error-message" th:if="${rdrmessage}" th:text="${rdrmessage}"></h3>

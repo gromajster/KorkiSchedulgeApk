@@ -20,7 +20,7 @@ public class Add {
     @Enumerated(EnumType.STRING)
     private TypeOfAdd typeOfAdd;
     @ManyToOne(cascade = CascadeType.ALL)
-    private User owner;
+    private UserEntity owner;
     @Enumerated(EnumType.STRING)
     private Category category;
 }

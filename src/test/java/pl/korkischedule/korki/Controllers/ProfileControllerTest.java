@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import pl.korkischedule.korki.Entity.User;
+import pl.korkischedule.korki.Entity.UserEntity;
 import pl.korkischedule.korki.Repository.AddRepo;
 import pl.korkischedule.korki.Repository.OpinionRepo;
 import pl.korkischedule.korki.Repository.UserRepo;
@@ -54,15 +54,15 @@ public class ProfileControllerTest {
         viewResolver.setSuffix(".html");
         ProfileController profileController = new ProfileController(userRepo, addRepo, opinionRepo, emailSender, storageService, youtubeVideoRepo);
         mockMvc = MockMvcBuilders.standaloneSetup(profileController).setViewResolvers(viewResolver).build();
-        User user = new User();
-        user.setUsername("user");
-        user.setPassword("user");
-        user.setEmail("example@example.com");
-        user.setSurname("surname");
-        user.setTelephone("13456789");
-        user.setDescription("default user");
-        userRepo.save(user);
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getEmail(), null, null));
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("userEntity");
+        userEntity.setPassword("userEntity");
+        userEntity.setEmail("example@example.com");
+        userEntity.setSurname("surname");
+        userEntity.setTelephone("13456789");
+        userEntity.setDescription("default userEntity");
+        userRepo.save(userEntity);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userEntity.getEmail(), null, null));
     }
 
     @After

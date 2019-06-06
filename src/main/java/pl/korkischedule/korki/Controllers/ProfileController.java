@@ -56,7 +56,7 @@ public class ProfileController {
 
         userRepo.findById(id)
                 .map(usr -> setUserAndAdds(usr, model))
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("UserEntity not found"));
         model.addAttribute("add", new Add());
         return "profile";
     }
@@ -67,7 +67,7 @@ public class ProfileController {
         model.addAttribute("add", new Add());
         model.addAttribute("formEmail", new ContactEmail());
         model.addAttribute("opinion", new Opinion());
-        User user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         Set<Add> addsTeacher = addRepo.findAllByOwnerAndTypeOfAdd(user, TypeOfAdd.TEACHER);
         Set<Add> addsStudent = addRepo.findAllByOwnerAndTypeOfAdd(user, TypeOfAdd.STUDENT);
         model.addAttribute("opinions", user.getOpinions());
@@ -92,15 +92,15 @@ public class ProfileController {
 
     @GetMapping("/user-info")
     public String userDetails(Model model) {
-        User user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
 
         model.addAttribute("user", user);
         return "user-info";
     }
 
     @PostMapping("/change")
-    public String changeDetails(@ModelAttribute User user) {
-        User backuser = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+    public String changeDetails(@ModelAttribute UserEntity user) {
+        UserEntity backuser = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         backuser.setName(user.getName());
         backuser.setSurname(user.getSurname());
         backuser.setDescription(user.getDescription());
@@ -113,7 +113,7 @@ public class ProfileController {
 
     @GetMapping("/fileUser")
     public String fileList(Model model) throws IOException {
-        User user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         model.addAttribute("listOfFiles", listFilesUsingDirectoryStream(BASIC_SAVE_PATH + SecurityUtils.getLoggedUsername()));
         model.addAttribute("youtubeVideo", new YoutubeVideo());
         model.addAttribute("listOfVideos", youtubeVideoRepo.findAllByOwnerVideo(user));
@@ -122,7 +122,7 @@ public class ProfileController {
 
     @PostMapping("/fileUser")
     public String sendVideo(@ModelAttribute YoutubeVideo youtubeVideo) {
-        User user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         String link = youtubeVideo.getLink();
         link = link.substring(32);
         youtubeVideo.setLink(link);
@@ -161,7 +161,7 @@ public class ProfileController {
         }
 
 
-        Optional<User> user = userRepo.findById(id);
+        Optional<UserEntity> user = userRepo.findById(id);
         model.addAttribute("listOfFiles", listFilesUsingDirectoryStream(BASIC_SAVE_PATH + user.get().getUsername()));
         model.addAttribute("listOfVideos", youtubeVideoRepo.findAllByOwnerVideo(user.get()));
         return "fileuser";
@@ -182,11 +182,11 @@ public class ProfileController {
     }
 
 
-    private User setUserAndAdds(User user, Model model) {
+    private UserEntity setUserAndAdds(UserEntity user, Model model) {
         model.addAttribute("user", user);
         ContactEmail contactEmail = ContactEmail.builder()
                 .destination(user.getEmail()).build();
-        User creator = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity creator = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         Opinion opinion = new Opinion(null, null, creator, user);
         model.addAttribute("opinion", opinion);
         model.addAttribute("formEmail", contactEmail);

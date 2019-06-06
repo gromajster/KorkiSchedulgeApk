@@ -2,10 +2,10 @@ package pl.korkischedule.korki.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.korkischedule.korki.Entity.User;
+import pl.korkischedule.korki.Entity.UserEntity;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<UserEntity, Long> {
 
-    User findByUsername(String username);
+    UserEntity findByUsername(String username);
 }

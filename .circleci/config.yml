@@ -4,7 +4,6 @@ jobs:
 
     working_directory: ~/korki-schedule
 
-
     docker:
     - image: circleci/openjdk:8u171-jdk
       environment:
@@ -21,13 +20,10 @@ jobs:
     steps:
 
     - checkout
-
     - run: mvn dependency:go-offline
     - run: mvn package
-    - run: ls
     - run: mv Dockerfile ./target
     - run: mv release.sh ./target
-    - run: ls target
     - persist_to_workspace:
         root: target
         paths:
@@ -43,10 +39,10 @@ jobs:
     steps:
     - attach_workspace:
         at: .
-    - run: ls
     - setup_remote_docker
-    - run: docker build -t registry.heroku.com/korkischedulgeapk/web . --iidfile image.txt
-    - run: cat image.txt
+    - run:
+        name: Build docker image from latest .jar file
+        command: docker build -t registry.heroku.com/korkischedulgeapk/web . --iidfile image.txt
     - run: docker login --username=mkucko145@gmail.com --password=${HEROKU_API_KEY} registry.heroku.com
     - run: docker push registry.heroku.com/korkischedulgeapk/web
     - run: chmod +x ./release.sh

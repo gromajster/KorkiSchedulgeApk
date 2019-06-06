@@ -19,9 +19,9 @@ public class Opinion {
 
     @ManyToOne
     @JoinColumn(name = "creator")
-    private User creator;
+    private UserEntity creator;
 
     @ManyToOne
     @JoinColumn(name = "receiver")
-    private User receiver;
+    private UserEntity receiver;
 }

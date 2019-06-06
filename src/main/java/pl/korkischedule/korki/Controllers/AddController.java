@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.korkischedule.korki.Entity.Add;
-import pl.korkischedule.korki.Entity.User;
+import pl.korkischedule.korki.Entity.UserEntity;
 import pl.korkischedule.korki.Repository.AddRepo;
 import pl.korkischedule.korki.Repository.UserRepo;
 import pl.korkischedule.korki.Security.SecurityUtils;
@@ -22,7 +22,7 @@ public class AddController {
 
     @PostMapping
     public String saveAdd(@ModelAttribute Add add, RedirectAttributes redirectAttributes) {
-        User user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
+        UserEntity user = userRepo.findByUsername(SecurityUtils.getLoggedUsername());
         add.setOwner(user);
         System.out.println(add.toString());
         addRepo.save(add);
