@@ -42,8 +42,9 @@ jobs:
 
     steps:
     - attach_workspace:
-        at: .
+        at: ./deploy
     - run: ls
+    - run: cd deploy
     - setup_remote_docker
     - run: docker build -t registry.heroku.com/korkischedulgeapk/web . --iidfile image.txt
     - run: cat image.txt
